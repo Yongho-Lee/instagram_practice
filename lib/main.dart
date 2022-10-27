@@ -11,8 +11,15 @@ void main() {
 
 
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  var tab = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +30,8 @@ class MyApp extends StatelessWidget {
       ),
       body: Row(children: [
         Container(
-          child: Text('사진'),
-        )
+          child: [Text('Home 사진'), Text('Shop 사진')][tab]
+        ),
       ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -32,6 +39,11 @@ class MyApp extends StatelessWidget {
         selectedItemColor: Colors.black,
         unselectedItemColor: Colors.grey,
 
+        onTap: (i){
+          setState(() {
+            tab = i;
+          });
+        },
         items: [
         BottomNavigationBarItem(
           icon:IconButton(onPressed: (){},
