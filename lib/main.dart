@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import './style.dart' as style;
+import './shop.dart' as shopTab;
+import './home.dart' as homeTab;
 
 void main() {
   runApp(MaterialApp(
@@ -21,6 +23,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   var tab = 0;
 
+
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -28,12 +31,7 @@ class _MyAppState extends State<MyApp> {
         title: Text('instagram'),
         actions: [Icon(Icons.add_box_outlined)],
       ),
-      body: Row(children: [
-        Container(
-          child: [Text('Home 사진'), Text('Shop 사진')][tab]
-        ),
-      ],
-      ),
+      body: mainItems(tabNum : tab),
       bottomNavigationBar: BottomNavigationBar(
 
         selectedItemColor: Colors.black,
@@ -70,5 +68,32 @@ class _MyAppState extends State<MyApp> {
 
 
     );
+  }
+}
+
+
+class mainItems extends StatefulWidget {
+  const mainItems({Key? key,
+    required this.tabNum
+
+  }) : super(key: key);
+
+  final tabNum;
+
+  @override
+  State<mainItems> createState() => _mainItemsState();
+}
+
+class _mainItemsState extends State<mainItems> {
+  @override
+  Widget build(BuildContext context) {
+
+    final tabNum = widget.tabNum;
+
+    return
+      Container(
+          child: [homeTab.contents, shopTab.contents][tabNum]
+      );
+
   }
 }
