@@ -33,37 +33,60 @@ class _MyAppState extends State<MyApp> {
       ),
       body: mainItems(tabNum : tab),
       bottomNavigationBar: BottomNavigationBar(
-
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.grey,
+        showUnselectedLabels: false,
+        showSelectedLabels: false,
 
         onTap: (i){
           setState(() {
             tab = i;
           });
         },
+
         items: [
-        BottomNavigationBarItem(
-          icon:IconButton(onPressed: (){},
-            icon: Icon(Icons.home),
+          BottomNavigationBarItem(
+              label : '홈',
+              icon: Icon(Icons.home_outlined),
+              activeIcon: Icon(Icons.home,
+              color: Colors.black,
+              )
           ),
-          label: 'Home',
-          activeIcon: Icon(
-            Icons.home,
-            color: Colors.black,
-          ),
-
-
-        ),
-        BottomNavigationBarItem(
-            icon:IconButton(onPressed: (){},
+          BottomNavigationBarItem(
+              label : '샵',
               icon: Icon(Icons.shopping_bag_outlined),
-            ),
-          label: 'Shop',
+              activeIcon: Icon(Icons.shopping_bag,
+              color: Colors.black
+                )
+          )
+        ],
 
-        ),
+      //
+      //   items: [
+      //   BottomNavigationBarItem(
+      //     icon:IconButton(onPressed: (){},
+      //       icon: Icon(Icons.home),
+      //     ),
+      //     label: 'Home',
+      //     activeIcon: Icon(
+      //       Icons.home,
+      //       color: Colors.black,
+      //     ),
+      //
+      //   ),
+      //   BottomNavigationBarItem(
+      //       icon:IconButton(onPressed: (){},
+      //         icon: Icon(Icons.shopping_bag_outlined),
+      //       ),
+      //     label: 'Shop',
+      //     activeIcon: Icon(
+      //       Icons.shopping_bag,
+      //       color: Colors.black,
+      //     )
+      //
+      //   ),
+      //
+      // ],
 
-      ],)
+      )
 
 
 
