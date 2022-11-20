@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
 import './style.dart' as style;
 import './shop.dart' as shopTab;
 import './home.dart' as homeTab;
@@ -22,6 +25,18 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var tab = 0;
+
+
+  getData() async {
+    var result = await http.get(Uri.parse('https://codingapple1.github.io/app/data.json'));
+    print(jsonDecode(result.body));
+  }
+
+  @override // initstate는 Myapp이 로드될 때 한 번 실행됨.
+  void initState() {
+    super.initState();
+    getData();
+  }
 
 
   @override
