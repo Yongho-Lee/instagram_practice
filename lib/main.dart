@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+// scroll 관련 package - 삭제가능
+import 'package:flutter/rendering.dart';
 
 
 import './style.dart' as style;
@@ -29,7 +31,6 @@ class _MyAppState extends State<MyApp> {
   var tab = 0;
 
   var datas = [];
-
   // Json Get 요청
   getData() async {
     var pureData = await http.get(Uri.parse('https://codingapple1.github.io/app/data.json'));
@@ -40,12 +41,22 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  // Home에서 getMore() 에 쓸 것
+  addData(a) {
+    setState(() {
+      datas.add(a);
+    });
+  }
+
   @override
   // initstate 함수는 Myapp이 로드될 때 한 번 실행되는 라이브러리 함수임.
   void initState() {
     super.initState();
     getData();
+
   }
+
+
 
 
 
@@ -60,7 +71,7 @@ class _MyAppState extends State<MyApp> {
 
       // ** Body
       body: Container(
-          child: [Home(datas : datas), shopTab.contents][tab]
+          child: [Home(datas : datas, addData:addData), shopTab.contents][tab]
       ),
 
       // **Navigation Bar
@@ -134,26 +145,56 @@ class _MyAppState extends State<MyApp> {
 class Home extends StatefulWidget {
   const Home({Key? key,
     required this.datas,
+    required this.addData,
+
   })
       : super(key: key);
 
   final datas;
+  final addData;
+
 
   @override
   State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
+
+  var scroll = ScrollController();
+
+  var extDatas;
+
+  getMore() async {
+    var extendData = await http.get(Uri.parse('https://codingapple1.github.io/app/more1.json'));
+    //print(jsonDecode(extendData.body));
+    var extResult = jsonDecode(extendData.body);
+    extDatas = extResult;
+    widget.addData(extDatas);
+  }
+
+
   @override
 
-
+  void initState() {
+    super.initState();
+    scroll.addListener( () {
+      if(scroll.position.pixels == scroll.position.maxScrollExtent){
+        getMore();
+        print('extDatas : ${extDatas} ');
+      }
+    });
+  }
 
   Widget build(BuildContext context) {
     final datas = widget.datas;
 
+    var len = datas.length;
+
+
     if(datas.isNotEmpty){
       return ListView.builder(
-          itemCount: datas.length,
+          itemCount: len,
+          controller: scroll,
           itemBuilder: (context, i){
             return ListTile(
               title: Image.network(datas[i]['image']),
@@ -165,6 +206,7 @@ class _HomeState extends State<Home> {
               subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Text('${datas[i]['likes']} liked'),
                     Text(datas[i]['content']),
                     Text(datas[i]['date']),
                     Text(datas[i]['user']),
