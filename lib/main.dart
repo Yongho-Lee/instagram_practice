@@ -59,7 +59,7 @@ class _MyAppState extends State<MyApp> {
       ),
 
       // ** Body
-      body:       Container(
+      body: Container(
           child: [Home(datas : datas), shopTab.contents][tab]
       ),
 
